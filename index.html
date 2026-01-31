@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>META MAKER | إمبراطورية الإبداع</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --main-blue: #00bfff; --dark-bg: #050810; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--dark-bg); color: #fff; margin: 0; overflow-x: hidden; }
+        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #0a192f 0%, var(--dark-bg) 100%); }
+        
+        .meta-maker-title { 
+            font-family: 'Orbitron', sans-serif; 
+            font-weight: 900; 
+            font-size: clamp(3rem, 10vw, 6rem); 
+            background: linear-gradient(45deg, #00bfff, #007bff, #38bdf8); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            animation: glow-effect 2s ease-in-out infinite alternate; 
+        }
+
+        @keyframes glow-effect { 
+            from { text-shadow: 0 0 10px #00bfff; } 
+            to { text-shadow: 0 0 30px #38bdf8; } 
+        }
+
+        .hero-subtitle {
+            font-weight: 800;
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.6;
+            animation: text-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-pulse {
+            from { text-shadow: 0 0 5px rgba(255,255,255,0.2); }
+            to { text-shadow: 0 0 15px var(--main-blue); }
+        }
+
+        .social-icon { font-size: 2.5rem; transition: all 0.3s ease; filter: drop-shadow(0 0 5px rgba(0, 191, 255, 0.3)); }
+        .social-icon:hover { transform: translateY(-5px); filter: drop-shadow(0 0 15px var(--main-blue)); }
+
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.02); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .glass-card:hover { border-color: var(--main-blue); transform: translateY(-8px); background: rgba(255, 255, 255, 0.05); }
+
+        .content-section { display: none; opacity: 0; transform: translateY(15px); transition: all 0.5s ease; }
+        .content-section.active { display: block; opacity: 1; transform: translateY(0); }
+
+        .soon-badge {
+            position: absolute;
+            top: 15px;
+            left: -35px;
+            background: var(--main-blue);
+            color: #fff;
+            padding: 5px 40px;
+            transform: rotate(-45deg);
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 10;
+        }
+
+        .music-control { 
+            position: fixed; bottom: 30px; right: 30px; 
+            background: rgba(0, 191, 255, 0.15); 
+            border: 1px solid var(--main-blue); 
+            width: 55px; height: 55px; 
+            border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; 
+            cursor: pointer; z-index: 1000; 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+    <audio id="bgAudio" loop><source src="https://www.bensound.com/bensound-music/bensound-epic.mp3" type="audio/mpeg"></audio>
+    <div class="music-control" onclick="togglePlayback()"><i class="fas fa-play text-white" id="mIcon"></i></div>
+
+    <header id="main-nav" class="relative flex flex-col items-center justify-center min-h-screen text-center px-4 py-12">
+        <h1 class="meta-maker-title mb-6">META MAKER</h1>
+        <p class="hero-subtitle">حيث يلتقي الفن بالتكنولوجيا.. نصنع لك هوية بصرية، محتوى سينمائي، وحلولاً برمجية تتخطى حدود الخيال.</p>
+        
+        <div class="flex gap-8 mb-12">
+            <a href="https://www.instagram.com/meta.maker" target="_blank" class="social-icon text-pink-500"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/213558831306" target="_blank" class="social-icon text-green-500"><i class="fab fa-whatsapp"></i></a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-7xl">
+            <div class="glass-card p-8 rounded-3xl cursor-pointer" onclick="navigate('design')">
+                <i class="fas fa-palette text-5xl text-sky-400 mb-6"></i>
+                <h2 class="text-2xl font-black">التصميم</h2>
+            </div>
+            <div class="glass-card p-8 rounded-3xl cursor-pointer" onclick="navigate('editing')">
+                <i class="fas fa-video text-5xl text-indigo-400 mb-6"></i>
+                <h2 class="text-2xl font-black">المونتاج</h2>
+            </div>
+            <div class="glass-card p-8 rounded-3xl cursor-pointer" onclick="navigate('programming')">
+                <i class="fas fa-code text-5xl text-emerald-400 mb-6"></i>
+                <h2 class="text-2xl font-black">البرمجة</h2>
+            </div>
+            <div class="glass-card p-8 rounded-3xl relative overflow-hidden opacity-50 cursor-not-allowed">
+                <div class="soon-badge">COMING SOON</div>
+                <i class="fas fa-microchip text-5xl text-gray-500 mb-6"></i>
+                <h2 class="text-2xl font-black text-gray-400">خدمات إلكترونية</h2>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4">
+        <section id="design-view" class="content-section py-20">
+            <button onclick="resetView()" class="mb-10 text-sky-400 font-bold"><i class="fas fa-arrow-right ml-2"></i> عودة</button>
+            <h2 class="text-4xl font-black mb-12 border-r-4 border-sky-500 pr-4">خدمات التصميم الاحترافية</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">لوقوهات & هويات</h3>
+                    <button onclick="initOrder('تصميم لوقو')" class="w-full bg-sky-600 py-3 rounded-xl font-bold hover:bg-sky-500 transition">طلب الخدمة</button>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">صور مصغرة (Thumbnails)</h3>
+                    <button onclick="initOrder('صورة مصغرة')" class="w-full bg-sky-600 py-3 rounded-xl font-bold hover:bg-sky-500 transition">طلب الخدمة</button>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">بانرات & ألبسة</h3>
+                    <button onclick="initOrder('تصميم بانر/ملابس')" class="w-full bg-sky-600 py-3 rounded-xl font-bold hover:bg-sky-500 transition">طلب الخدمة</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="editing-view" class="content-section py-20">
+            <button onclick="resetView()" class="mb-10 text-indigo-400 font-bold"><i class="fas fa-arrow-right ml-2"></i> عودة</button>
+            <h2 class="text-4xl font-black mb-12 border-r-4 border-indigo-500 pr-4">خدمات المونتاج السينمائي</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">فيديوهات قصيرة & ريلز</h3>
+                    <button onclick="initOrder('مونتاج ريلز')" class="w-full bg-indigo-600 py-3 rounded-xl font-bold hover:bg-indigo-500 transition">طلب الخدمة</button>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">مقاطع يوتيوب طويلة</h3>
+                    <button onclick="initOrder('مونتاج يوتيوب')" class="w-full bg-indigo-600 py-3 rounded-xl font-bold hover:bg-indigo-500 transition">طلب الخدمة</button>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">أنيميشن لوقو & مقدمات</h3>
+                    <button onclick="initOrder('أنيميشن لوقو')" class="w-full bg-indigo-600 py-3 rounded-xl font-bold hover:bg-indigo-500 transition">طلب الخدمة</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="programming-view" class="content-section py-20">
+            <button onclick="resetView()" class="mb-10 text-emerald-400 font-bold"><i class="fas fa-arrow-right ml-2"></i> عودة</button>
+            <h2 class="text-4xl font-black mb-12 border-r-4 border-emerald-500 pr-4">حلول البرمجة والتطوير</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">إنشاء مواقع ويب</h3>
+                    <button onclick="initOrder('برمجة موقع')" class="w-full bg-emerald-600 py-3 rounded-xl font-bold hover:bg-emerald-500 transition">طلب الخدمة</button>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">صنع بانلات مخصصة</h3>
+                    <button onclick="initOrder('صنع بانل')" class="w-full bg-emerald-600 py-3 rounded-xl font-bold hover:bg-emerald-500 transition">طلب الخدمة</button>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4">خدمات QR Code</h3>
+                    <button onclick="initOrder('برمجة QR Code')" class="w-full bg-emerald-600 py-3 rounded-xl font-bold hover:bg-emerald-500 transition">طلب الخدمة</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="orderModal" class="fixed inset-0 bg-black/95 hidden flex items-center justify-center p-4 z-[500] backdrop-blur-sm">
+        <div class="glass-card w-full max-w-md p-8 rounded-3xl relative">
+            <button onclick="closeModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white">✕</button>
+            <h2 id="modalTitle" class="text-2xl font-bold mb-6 text-sky-400 text-center uppercase tracking-widest">Order Service</h2>
+            <form action="https://formspree.io/f/mqebrnlk" method="POST" class="space-y-4">
+                <input type="hidden" name="service_type" id="serviceInput">
+                <input type="text" name="contact" placeholder="رقم الهاتف أو وسيلة تواصل" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500 transition">
+                <textarea name="details" placeholder="اكتب تفاصيل طلبك هنا..." rows="4" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-sky-500 transition"></textarea>
+                <button type="submit" class="w-full bg-sky-600 py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-sky-500 shadow-lg transition">تأكيد الإرسال</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Init Particles
+        particlesJS("particles-js", { "particles": { "number": { "value": 70 }, "color": { "value": "#00bfff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.3 }, "size": { "value": 2 }, "line_linked": { "enable": true, "distance": 150, "color": "#00bfff", "opacity": 0.1, "width": 1 }, "move": { "enable": true, "speed": 1.5 } } });
+
+        const audio = document.getElementById('bgAudio');
+        const icon = document.getElementById('mIcon');
+        let isPlaying = false;
+
+        function togglePlayback() {
+            if(!isPlaying) { audio.play(); icon.className = 'fas fa-pause'; } 
+            else { audio.pause(); icon.className = 'fas fa-play'; }
+            isPlaying = !isPlaying;
+        }
+
+        function navigate(view) {
+            document.getElementById('main-nav').style.display = 'none';
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(view + '-view').classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function resetView() {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById('main-nav').style.display = 'flex';
+        }
+
+        function initOrder(name) {
+            document.getElementById('orderModal').classList.remove('hidden');
+            document.getElementById('modalTitle').innerText = name;
+            document.getElementById('serviceInput').value = name;
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
